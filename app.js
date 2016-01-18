@@ -38,7 +38,12 @@ poiRouter.route('/poi/:name/')
 poiRouter.route('/poi/upload')
 .post(uploadImage.single('image'), function(req, res) {
    // concat image url and name into 'name'
-   req.body.name = req.file.filename  + "|" + req.body.name;
+   //req.body.name = req.file.filename  + "|" + req.body.name;
+   req.body.name = JSON.stringify({name: req.body.name,
+                     image: req.file.filename,
+                     description: req.body.description,
+                     rating: req.body.rating});
+
    console.log("adding:");
    console.log(req.body);
    georedis.addLocation(req.body, function(responseJson) {
